@@ -26,15 +26,12 @@ class UserController {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    const { email, name, password_hash, provider } = await User.create(
-      req.body
-    );
+    const { email, name, password_hash } = await User.create(req.body);
 
     return res.json({
       email,
       name,
       password_hash,
-      provider,
     });
   }
 
@@ -53,7 +50,7 @@ class UserController {
       ),
     });
 
-    if (!(await schema.isValid(req.body))) {
+    if (await schema.isValid(req.body)) {
       return res.status(400).json({ error: 'Validation error ' });
     }
 
