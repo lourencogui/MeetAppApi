@@ -28,15 +28,6 @@ class StudentController {
     }
 
     const { email } = req.body;
-
-    const checkUserIsAdmin = await User.findOne({ where: { id: req.userId } });
-
-    if (!checkUserIsAdmin) {
-      return res
-        .status(400)
-        .json({ error: 'Only admins are allowed to create students' });
-    }
-
     const checkStudentExists = await Student.findOne({ where: { email } });
 
     if (checkStudentExists) {
@@ -71,13 +62,6 @@ class StudentController {
 
     const { email } = req.body;
     const { studentId } = req.params;
-    const checkUserIsAdmin = await User.findByPk(req.userId);
-
-    if (!checkUserIsAdmin) {
-      return res
-        .status(400)
-        .json({ error: 'Only admins are allowed to update students' });
-    }
 
     if (email) {
       const emailAlreadyUsed = await Student.findOne({ where: { email } });
