@@ -1,6 +1,7 @@
 import HelpOrder from '../models/HelpOrder';
 import Student from '../models/Student';
-import Mail from '../../lib/Mail';
+import Queue from '../../lib/Queue';
+import CancellationMail from '../jobs/CancellationMail';
 
 class AnswerController {
   async store(req, res) {
@@ -18,15 +19,11 @@ class AnswerController {
 
     const { name, email } = await Student.findByPk(updatedHelpOrder.student_id);
 
-    await Mail.sendEmail({
-      to: `${name} <${email}>`,
-      subject: 'Resposta a sua pergunta',
-      template: 'answer',
-      context: {
-        question: helpOrder.question,
-        answer,
-        name,
-      },
+    Queue.doJob(CancellationMail.key, {
+      name,
+      email,
+      answer,
+      question: helpOrder.question,
     });
     return res.json(updatedHelpOrder);
   }

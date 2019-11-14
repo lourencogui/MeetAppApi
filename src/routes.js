@@ -11,7 +11,18 @@ import CheckinController from './app/controllers/CheckinController';
 import HelpOrderController from './app/controllers/HelpOrderController';
 import AnswerController from './app/controllers/AnswerController';
 
+import Queue from './lib/Queue';
+import CancellationMail from './app/jobs/CancellationMail';
+
 const routes = new Router();
+
+routes.get('/', (req, res) => {
+  Queue.doJob(CancellationMail.key, {
+    email: 'guilherme@agrotools.com.br',
+    name: 'guilherme',
+  });
+  return res.json({ ok: true });
+});
 
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
