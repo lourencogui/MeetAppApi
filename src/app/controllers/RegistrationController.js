@@ -4,6 +4,8 @@ import Registration from '../models/Registration';
 import User from '../models/User';
 import Student from '../models/Student';
 import Plan from '../models/Plan';
+import Queue from '../../lib/Queue';
+import RegistrationMail from '../jobs/RegistrationMail';
 import Mail from '../../lib/Mail';
 
 class RegistrationController {
@@ -56,18 +58,19 @@ class RegistrationController {
     });
 
     const { email, name } = checkStudenExists;
-    const formattedDate = format(endDate, 'dd/MM/yyyy');
-    await Mail.sendEmail({
-      to: email,
-      subject: 'Inscrição Gympoint',
-      template: 'registration',
-      context: {
-        endDate: formattedDate,
-        total: total.toLocaleString('pt-BR'),
-        student: name,
-        plan,
-      },
-    });
+    // const formattedDate = format(endDate, 'dd/MM/yyyy');
+    // await Mail.sendEmail({
+    //   to: email,
+    //   subject: 'Inscrição Gympoint',
+    //   template: 'registration',
+    //   context: {
+    //     endDate: formattedDate,
+    //     total: total.toLocaleString('pt-BR'),
+    //     student: name,
+    //     plan,
+    //   },
+    // });
+    Queue.doJob(RegistrationMail.key, { email, name, endDate, plan, total });
 
     return res.json(registration);
   }
