@@ -194,6 +194,7 @@ bcrypt@^3.0.6:
 bee-queue@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/bee-queue/-/bee-queue-1.2.2.tgz#ad82226de14f42fed4b86b066b18c4829ffd3600"
+  integrity sha512-Nw6VXHkAdfnMEp5bdffTSZEBnHuZSoRLjwmurfaQp6xmcxP+XsaqKClH1/XLmoAkrOuW40j9mLGlsLR/25ljwQ==
   dependencies:
     promise-callbacks "^3.0.0"
     redis "^2.7.1"
