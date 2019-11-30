@@ -22,6 +22,7 @@ routes.use(AuthMiddleware);
 routes.put('/users', UserController.update);
 
 // STUDENT
+routes.get('/students', PrivateMiddleware, StudentController.index);
 routes.post('/students', PrivateMiddleware, StudentController.store);
 routes.put('/students/:studentId', PrivateMiddleware, StudentController.update);
 

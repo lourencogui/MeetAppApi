@@ -81,7 +81,9 @@ class RegistrationController {
         .json({ error: 'Only admin can create registration' });
     }
 
-    const registrations = await Registration.findAll();
+    const registrations = await Registration.findAll({
+      attributes: ['id', 'start_date', 'end_date', 'price', 'active'],
+    });
 
     return res.json(registrations);
   }
